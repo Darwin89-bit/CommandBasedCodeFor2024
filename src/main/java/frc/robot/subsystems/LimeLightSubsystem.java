@@ -26,15 +26,8 @@ public class LimeLightSubsystem extends SubsystemBase {
         double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
         double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
-        if (tv < 1.0)
-        {
-          m_LimelightHasValidTarget = false;
-          m_LimelightDriveCommand = 0.0;
-          m_LimelightSteerCommand = 0.0; 
-          return;
-        }
+        doesTheLimeLightHaveATarget();
 
-        m_LimelightHasValidTarget = true;
 
         // Start with proportional steering
         double steer_cmd = tx * STEER_K;
@@ -49,6 +42,20 @@ public class LimeLightSubsystem extends SubsystemBase {
           drive_cmd = MAX_DRIVE;
         }
         m_LimelightDriveCommand = drive_cmd;
+  }
+
+  public boolean doesTheLimeLightHaveATarget () {
+    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+
+    if (tv < 1.0)
+    {
+      m_LimelightHasValidTarget = false;
+      m_LimelightDriveCommand = 0.0;
+      m_LimelightSteerCommand = 0.0; 
+      return false;
+    }
+
+    return doesTheLimeLightHaveATarget();
   }
 
   /** Creates a new LimeLightSubsystem. */
