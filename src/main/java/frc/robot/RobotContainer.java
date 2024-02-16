@@ -7,6 +7,7 @@ import frc.robot.commands.AutoDrive;
 import frc.robot.commands.DriveWithJoystickCommand;
 import frc.robot.commands.ElbowMoveCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ElbowMoveCommandPID;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElbowSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -35,6 +37,7 @@ public class RobotContainer {
   private final ShooterCommand shooterCommand = new ShooterCommand(shooterSubsystem);
 
   public static Joystick joystick = new Joystick(0);
+  JoystickButton aButton = new JoystickButton(joystick, 2);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
@@ -46,6 +49,7 @@ public class RobotContainer {
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand);
     elbowSubsystem.setDefaultCommand(elbowMoveCommand);
     shooterSubsystem.setDefaultCommand(shooterCommand);
+    aButton.onTrue(new  ElbowMoveCommandPID(elbowSubsystem, 90));
     
     ///new JoystickButton(joystick, 1).toggleOnTrue(elbowMoveCommand);
 
@@ -61,7 +65,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
+  
   }
 
   /**

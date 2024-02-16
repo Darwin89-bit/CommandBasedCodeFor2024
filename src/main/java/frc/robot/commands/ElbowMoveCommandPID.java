@@ -5,28 +5,46 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.subsystems.ElbowSubsystem;
 public class ElbowMoveCommandPID extends CommandBase {
-  /** Creates a new ElbowMoveCommandPID. */
-  public ElbowMoveCommandPID() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private final ElbowSubsystem elbowSubsystem;
+  double initialEncoderValue;
+  double liveEncoderValue;
+  double desiredDegree;
+
+  public ElbowMoveCommandPID(ElbowSubsystem elbowSubsystem, double desiredDegree) {
+    this.elbowSubsystem = elbowSubsystem;
+    this.desiredDegree = desiredDegree;
+    addRequirements(elbowSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    initialEncoderValue = elbowSubsystem.getEncoderValueDegree();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    elbowSubsystem.setMotorSpeed(.5);
+    liveEncoderValue = elbowSubsystem.getEncoderValueDegree();
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    elbowSubsystem.setMotorSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (liveEncoderValue == desiredDegree ){
+      return true;
+    } else {
+      return false;
+    }
   }
 }

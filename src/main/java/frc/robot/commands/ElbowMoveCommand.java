@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElbowSubsystem;
 
 public class ElbowMoveCommand extends CommandBase {
-  private final ElbowSubsystem elbowSubsystem;
+private final ElbowSubsystem elbowSubsystem;
 
 
   /** Creates a new ElbowMoveCommand. */
@@ -37,15 +37,7 @@ public class ElbowMoveCommand extends CommandBase {
       elbowSubsystem.setMotorSpeed(-1);
     } else if ((pov<90 && pov>=0  )|| (pov>270 && pov<=360) ) {
       elbowSubsystem.setMotorSpeed(1);
-    } else if (aButton){
-      if (elbowSubsystem.getEncoderValueDegree() != 90){
-        double x = elbowSubsystem.getEncoderValueDegree()- 90;
-        elbowSubsystem.setMotorSpeed(-x*.005);
-      }
-      else {
-        elbowSubsystem.setMotorSpeed(0);
-      }
-    } else {
+    }  else {
       elbowSubsystem.setMotorSpeed(0);
     }
 
